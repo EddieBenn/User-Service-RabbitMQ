@@ -18,7 +18,13 @@ import { CreateUserDto, UserFilter } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserResponseDto } from './dto/update-user.dto';
 import { RoleGuard } from 'src/auth/role.guard';
 import { Roles } from 'src/auth/role.decorator';
-import { ForgotPasswordDto, LoginDto, Role } from 'src/base.entity';
+import {
+  ForgotPasswordDto,
+  LoginDto,
+  ResendOTPDto,
+  Role,
+  VerifyOTPDto,
+} from 'src/base.entity';
 import { PasswordMatch } from 'src/auth/password-match.pipe';
 import { Response } from 'express';
 import { SkipAuth } from 'src/auth/auth.decorator';
@@ -56,6 +62,39 @@ export class UsersController {
   async createUser(@Body() body: CreateUserDto, @Req() req: any) {
     try {
       return this.usersService.createUser(body, req?.user);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @ApiOperation({ summary: 'Verify User OTP' })
+  @ApiBody({ type: VerifyOTPDto })
+  @ApiOkResponse({ description: 'OTP verified successfully' })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  @ApiBadRequestResponse({ description: 'Invalid or expired OTP' })
+  @SkipAuth()
+  @Post('verify-otp')
+  async verifyOTP(@Body() verifyOTPDto: VerifyOTPDto) {
+    try {
+      return await this.usersService.verifyOTP(
+        verifyOTPDto.email,
+        verifyOTPDto.otp,
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @ApiOperation({ summary: 'Resend OTP to User' })
+  @ApiBody({ type: ResendOTPDto })
+  @ApiOkResponse({ description: 'New OTP sent successfully' })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  @ApiBadRequestResponse({ description: 'User already verified' })
+  @SkipAuth()
+  @Post('resend-otp')
+  async resendOTP(@Body() resendOTPDto: ResendOTPDto) {
+    try {
+      return await this.usersService.resendOTP(resendOTPDto.email);
     } catch (error) {
       throw error;
     }

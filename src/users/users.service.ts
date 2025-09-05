@@ -142,7 +142,6 @@ export class UsersService {
 
     const otp = UtilService.generateOTP();
     const hashedOTP = await UtilService.hashPassword(otp);
-
     await this.usersRepository.update(user.id, {
       otp: hashedOTP,
       otp_expiry: UtilService.generateOTPExpiration(),
@@ -270,6 +269,17 @@ export class UsersService {
         HttpStatus.NOT_FOUND,
       );
     }
+
+    const isSamePassword = await UtilService.validatePassword(
+      password,
+      user.password,
+    );
+    if (isSamePassword) {
+      throw new BadRequestException(
+        'New password cannot be the same as your old password',
+      );
+    }
+
     const hashedPassword = await UtilService.hashPassword(password);
     await this.usersRepository.update(
       { email: email },

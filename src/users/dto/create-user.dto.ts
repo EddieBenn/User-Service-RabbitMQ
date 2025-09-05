@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MinLength,
@@ -56,12 +57,13 @@ export class CreateUserDto {
   gender: GenderEnum;
 
   @ApiProperty({ example: 'admin', description: 'Role of the user' })
+  @IsOptional()
   @IsString()
   @IsEnum(Role)
   role?: string;
 
   @ApiProperty({
-    example: 'Strongpassword123*',
+    example: 'Strongpassword123@',
     description: 'Password of the user',
   })
   @IsNotEmpty()
