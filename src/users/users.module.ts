@@ -6,6 +6,7 @@ import { Users } from './entities/user.entity';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { config } from 'src/config';
 import { AuthModule } from 'src/auth/auth.module';
+import { UserSubscriber } from './subscribers/user.subsriber';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { AuthModule } from 'src/auth/auth.module';
     AuthModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, UserSubscriber],
   exports: [UsersService],
 })
 export class UsersModule {}
