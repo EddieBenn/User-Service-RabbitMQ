@@ -15,7 +15,7 @@ import { UserSubscriber } from './subscribers/user.subsriber';
       uri: config.RABBITMQ_URL,
       exchanges: [
         {
-          name: config.RABBITMQ_EXCHANGE,
+          name: config.RABBITMQ_EXCHANGE!,
           type: 'direct',
         },
       ],

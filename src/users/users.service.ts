@@ -71,7 +71,6 @@ export class UsersService {
         email: createdUser.email,
         first_name: createdUser.first_name,
         otp: otp,
-        otp_expiry: createdUser.otp_expiry,
       },
     );
 
@@ -154,7 +153,6 @@ export class UsersService {
         email: user.email,
         first_name: user.first_name,
         otp: otp,
-        otp_expiry: UtilService.generateOTPExpiration(),
       },
     );
 
