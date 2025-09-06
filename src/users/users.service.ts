@@ -65,8 +65,8 @@ export class UsersService {
     const createdUser = await this.usersRepository.save(newUser);
 
     await this.amqpConnection.publish(
-      config.RABBITMQ_EXCHANGE,
-      config.SIGNUP_ROUTING_KEY,
+      config.RABBITMQ_EXCHANGE!,
+      config.SIGNUP_ROUTING_KEY!,
       {
         email: createdUser.email,
         first_name: createdUser.first_name,
@@ -115,8 +115,8 @@ export class UsersService {
     });
 
     await this.amqpConnection.publish(
-      config.RABBITMQ_EXCHANGE,
-      config.VERIFIED_ROUTING_KEY,
+      config.RABBITMQ_EXCHANGE!,
+      config.VERIFIED_ROUTING_KEY!,
       {
         email: user.email,
         first_name: user.first_name,
@@ -148,8 +148,8 @@ export class UsersService {
     });
 
     await this.amqpConnection.publish(
-      config.RABBITMQ_EXCHANGE,
-      config.SIGNUP_ROUTING_KEY,
+      config.RABBITMQ_EXCHANGE!,
+      config.SIGNUP_ROUTING_KEY!,
       {
         email: user.email,
         first_name: user.first_name,
