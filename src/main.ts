@@ -66,7 +66,9 @@ async function bootstrap(): Promise<NestExpressApplication> {
   await app.listen(PORT, () => {
     console.log(`🚀 Server running on port:: ${PORT}`);
     console.info(
-      `🔗 Swagger docs available at: ${config.APP_URL}${PORT}/documentationView`,
+      `🔗 Swagger docs available at: ${config.APP_URL}${
+        config.NODE_ENV === 'development' ? PORT : ''
+      }/documentationView`,
     );
   });
 
