@@ -56,7 +56,7 @@ export class UsersController {
   @ApiResponse({ status: 422, description: 'User with email already exist' })
   @ApiForbiddenResponse({ description: 'Permission denied' })
   @ApiNotFoundResponse({ description: 'No agent found in this city' })
-  @ApiSecurity('access_token')
+  @SkipAuth()
   @Post()
   @UsePipes(PasswordMatch)
   async createUser(@Body() body: CreateUserDto, @Req() req: any) {

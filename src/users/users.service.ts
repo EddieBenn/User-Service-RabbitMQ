@@ -31,7 +31,10 @@ export class UsersService {
   ) {}
 
   @Transactional()
-  async createUser(data: CreateUserDto, user: IReqUser): Promise<IUser> {
+  async createUser(
+    data: CreateUserDto,
+    user: IReqUser,
+  ): Promise<Partial<Users>> {
     const { email, role, password } = data;
 
     const emailExist = await this.usersRepository.exists({ where: { email } });
@@ -74,7 +77,18 @@ export class UsersService {
       },
     );
 
-    return createdUser;
+    return {
+      first_name: createdUser.first_name,
+      last_name: createdUser.last_name,
+      email: createdUser.email,
+      phone: createdUser.phone,
+      city: createdUser.city,
+      role: createdUser.role,
+      id: createdUser.id,
+      created_at: createdUser.created_at,
+      updated_at: createdUser.updated_at,
+      is_verified: createdUser.is_verified,
+    };
   }
 
   @Transactional()
